@@ -79,6 +79,28 @@ const Home = () => {
     }
   };
 
+  const deleteTask = async (id) => {
+    try {
+      const request = await fetch(
+        `https://playground.4geeks.com/todo/todos/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            accept: "application/json",
+          },
+        }
+      );
+      if (request.ok) {
+        setUser({ ...userToDo, todos: todos.filter((task) => task.id !== id) });
+        setErrors([]);
+      } else {
+        setErrors(["Error al borrar"]);
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
+
   function handleKeyDown(e) {
     if (e.key === "Enter") {
       addTask();
@@ -103,7 +125,7 @@ const Home = () => {
               setInputTask(e.target.value);
             }}
             value={inputTask}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => handleKeyDown(e)}
             placeholder="What do you need to be ?"
           />
         </li>
