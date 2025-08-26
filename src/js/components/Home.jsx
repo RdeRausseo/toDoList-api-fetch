@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { BiTrash } from "react-icons/bi";
 
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
@@ -91,7 +92,10 @@ const Home = () => {
         }
       );
       if (request.ok) {
-        setUser({ ...userToDo, todos: todos.filter((task) => task.id !== id) });
+        setUser({
+          ...userToDo,
+          todos: userToDo.todos.filter((task) => task.id !== id),
+        });
         setErrors([]);
       } else {
         setErrors(["Error al borrar"]);
@@ -111,7 +115,7 @@ const Home = () => {
   return (
     <div className="container text-center p-5">
       <h1 className="display-3"> ToDo List de: {userToDo.name} </h1>
-      <ul className="list-group my-2">
+      <ul className="my-2">
         {inputErrors?.map((error, index) => (
           <li key={index}> {error} </li>
         ))}
@@ -131,7 +135,14 @@ const Home = () => {
         </li>
         {userToDo.todos?.map((todos) => (
           <li key={todos.id} className="list-group-item fs-3">
-            {todos.label}
+            {todos.label}{" "}
+            <button
+              className="btn btn-danger px-2 trash-button"
+              onClick={() => deleteTask(todos.id)}
+            >
+              {" "}
+              <BiTrash size={20} />{" "}
+            </button>
           </li>
         ))}
       </ul>
